@@ -37,7 +37,6 @@ const register = async (req: Request, res: Response) => {
     password: passwordHash,
   });
 
-
   // If created sucessfully, return the token
   if (!newUser) {
     res.status(422).json({
@@ -48,10 +47,30 @@ const register = async (req: Request, res: Response) => {
 
   res.status(201).json({
     _id: newUser._id,
-    token: generateToken(newUser._id)
-  })
+    token: generateToken(newUser._id),
+  });
+};
+
+// Login
+const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    res.status(404).json({ errors: ['Usuário não encotrado!'] });
+    return;
+  }
+
+  if (!(await bcrypt.compare(password, user.password))) {
+    res.status(422).json({ errors: ['Senha inválida!'] });
+    return;
+  }
+
+  res.status(200).json({ _id: user._id, token: generateToken(user._id) });
 };
 
 module.exports = {
-  register
-}
+  register,
+  login
+};
