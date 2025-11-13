@@ -1,5 +1,3 @@
-import type { Request, Response } from 'express';
-
 require('dotenv').config();
 
 const express = require('express');
@@ -11,11 +9,10 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-require('./config/db')
+require('./config/db');
 
-app.get('/api/health', (req: Request, res: Response) =>
-  res.json({ ok: true })
-);
+const router = require('./routes/Router');
+app.use(router);
 
 const PORT = process.env.PORT || 5000;
 
