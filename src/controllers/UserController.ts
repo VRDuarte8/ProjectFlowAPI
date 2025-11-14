@@ -72,5 +72,5 @@ const login = async (req: Request, res: Response) => {
 
 module.exports = {
   register,
-  login
+  login,
 };
