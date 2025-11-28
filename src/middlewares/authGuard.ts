@@ -11,14 +11,14 @@ const authGuard = async (req: Request, res: Response, next: NextFunction) => {
   if (!token) return res.status(401).json({ errors: ['Acesso negado!'] });
 
   try {
-    const verified = jwt.verify(token, jwtSecret)
+    const verified = jwt.verify(token, jwtSecret);
 
-    req.user = await User.findById(verified.id).select('-password')
+    req.user = await User.findById(verified.userId).select('-password');
 
-    next()
+    next();
   } catch (error) {
-    res.status(400).json({errors: ['O Token é inválido!']})
+    res.status(400).json({ errors: ['O Token é inválido!'] });
   }
 };
 
-module.exports = authGuard
+module.exports = authGuard;

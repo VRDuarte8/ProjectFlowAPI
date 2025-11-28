@@ -70,7 +70,37 @@ const login = async (req: Request, res: Response) => {
   res.status(200).json({ _id: user._id, token: generateToken(user._id) });
 };
 
+// Get logged user
+const getCurrentUser = async (req: Request, res: Response) => {
+  const user = req.user;
+
+  res.status(200).json(user);
+};
+
+// Get user by id
+const getUserById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    
+    const user = await User.findById(id).select('-password');
+
+    if (!user) {
+      res.status(404).json({ errors: ['Usuário não encontrado"'] });
+      return;
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ errors: ['Usuário não encontrado!'] });
+    return;
+  }
+};
+
 module.exports = {
   register,
   login,
+  getCurrentUser,
+  getUserById,
 };
+
