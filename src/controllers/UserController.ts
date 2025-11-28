@@ -82,7 +82,6 @@ const getUserById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    
     const user = await User.findById(id).select('-password');
 
     if (!user) {
@@ -97,10 +96,58 @@ const getUserById = async (req: Request, res: Response) => {
   }
 };
 
+// Update user
+const update = async (req: Request, res: Response) => {
+  const { name, password, role } = req.body;
+
+  const reqUser = req.user;
+
+  const user = await User.findById(reqUser._id).select('-password');
+
+  if (name) {
+    user.name = name;
+  }
+
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
+    user.password = passwordHash;
+  }
+
+  if (role) {
+    user.role = role;
+  }
+
+  await user.save();
+
+  res.status(200).json(user);
+};
+
+// Delete user
+const deleteUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const reqUserId = req.user._id.toString();
+
+  const user = await User.findById(id);
+
+  if (reqUserId !== user._id.toString()) {
+    res
+      .status(403)
+      .json({ error: 'Você não possui autorização para realizar esta ação!' });
+    return;
+  }
+
+  await user.deleteOne();
+
+  return res.status(200).json({ message: 'Usuário deletado com sucesso' });
+};
+
 module.exports = {
   register,
   login,
   getCurrentUser,
   getUserById,
+  update,
+  deleteUser,
 };
-
