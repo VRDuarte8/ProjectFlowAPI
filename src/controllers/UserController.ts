@@ -16,58 +16,66 @@ const generateToken = (userId: string) => {
 
 // Register
 const register = async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  try {
+    const { name, email, password } = req.body;
 
-  // check if user exists
-  const userExists = await User.findOne({ email });
+    // check if user exists
+    const userExists = await User.findOne({ email });
 
-  if (userExists) {
-    res.status(422).json({ erros: ['E-mail já cadastrado!'] });
-    return;
-  }
+    if (userExists) {
+      res.status(422).json({ erros: ['E-mail já cadastrado!'] });
+      return;
+    }
 
-  // Generate password hash
-  const salt = await bcrypt.genSalt(10);
-  const passwordHash = await bcrypt.hash(password, salt);
+    // Generate password hash
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
 
-  // Create user
-  const newUser = await User.create({
-    name,
-    email,
-    password: passwordHash,
-  });
-
-  // If created sucessfully, return the token
-  if (!newUser) {
-    res.status(422).json({
-      errors: ['Houve um erro, tente novamente mais tarde!'],
+    // Create user
+    const newUser = await User.create({
+      name,
+      email,
+      password: passwordHash,
     });
-    return;
-  }
 
-  res.status(201).json({
-    _id: newUser._id,
-    token: generateToken(newUser._id),
-  });
+    // If created sucessfully, return the token
+    if (!newUser) {
+      res.status(422).json({
+        errors: ['Houve um erro, tente novamente mais tarde!'],
+      });
+      return;
+    }
+
+    res.status(201).json({
+      _id: newUser._id,
+      token: generateToken(newUser._id),
+    });
+  } catch (error) {
+    return res.status(500).json({ error: 'Erro interno ao criar usuário!' });
+  }
 };
 
 // Login
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-  if (!user) {
-    res.status(404).json({ errors: ['Usuário não encotrado!'] });
-    return;
+    if (!user) {
+      res.status(404).json({ errors: ['Usuário não encotrado!'] });
+      return;
+    }
+
+    if (!(await bcrypt.compare(password, user.password))) {
+      res.status(422).json({ errors: ['Senha inválida!'] });
+      return;
+    }
+
+    res.status(200).json({ _id: user._id, token: generateToken(user._id) });
+  } catch (error) {
+    return res.status(500).json({ error: 'Erro interno ao realizar o login!' });
   }
-
-  if (!(await bcrypt.compare(password, user.password))) {
-    res.status(422).json({ errors: ['Senha inválida!'] });
-    return;
-  }
-
-  res.status(200).json({ _id: user._id, token: generateToken(user._id) });
 };
 
 // Get logged user
@@ -98,49 +106,63 @@ const getUserById = async (req: Request, res: Response) => {
 
 // Update user
 const update = async (req: Request, res: Response) => {
-  const { name, password, role } = req.body;
+  try {
+    const { name, password, role } = req.body;
 
-  const reqUser = req.user;
+    const reqUser = req.user;
 
-  const user = await User.findById(reqUser._id).select('-password');
+    const user = await User.findById(reqUser._id).select('-password');
 
-  if (name) {
-    user.name = name;
+    if (name) {
+      user.name = name;
+    }
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(password, salt);
+      user.password = passwordHash;
+    }
+
+    if (role) {
+      user.role = role;
+    }
+
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao atualizar o usuário!' });
   }
-
-  if (password) {
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
-    user.password = passwordHash;
-  }
-
-  if (role) {
-    user.role = role;
-  }
-
-  await user.save();
-
-  res.status(200).json(user);
 };
 
 // Delete user
 const deleteUser = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const reqUserId = req.user._id.toString();
+    const reqUserId = req.user._id.toString();
 
-  const user = await User.findById(id);
+    const user = await User.findById(id);
 
-  if (reqUserId !== user._id.toString()) {
-    res
-      .status(403)
-      .json({ error: 'Você não possui autorização para realizar esta ação!' });
-    return;
+    if (reqUserId !== user._id.toString()) {
+      res
+        .status(403)
+        .json({
+          error: 'Você não possui autorização para realizar esta ação!',
+        });
+      return;
+    }
+
+    await user.deleteOne();
+
+    return res.status(200).json({ message: 'Usuário deletado com sucesso' });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao deletar o usuário!' });
   }
-
-  await user.deleteOne();
-
-  return res.status(200).json({ message: 'Usuário deletado com sucesso' });
 };
 
 module.exports = {
