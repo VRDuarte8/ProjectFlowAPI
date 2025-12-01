@@ -24,10 +24,39 @@ const createProject = async (req: Request, res: Response) => {
   }
 };
 
-const getProject = async (req: Request, res: Response) => {};
+const getProjectbyId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const project = await Project.findById(id);
+    if (!project) {
+      res.status(404).json({ errors: ['Projeto não encontrado"'] });
+      return;
+    }
+
+    res.status(200).json(project);
+  } catch (error) {
+    res.status(404).json({ errors: ['Projeto não encontrado!'] });
+    return;
+  }
+};
+
+const getProjects = async (req: Request, res: Response) => {
+  try {
+    const projects = await Project.find({ $or: [{owner: req.user._id}, {members: req.user._id}]})
+
+    if(!projects || projects.length === 0){
+      return res.status(200).json({ message: 'Você não está participando de nenhum projetos'})
+    }
+
+    return res.status(200).json({projects})
+  } catch (error) {
+    return res.status(404).json({ errors: ['Projetos não encontrados!'] });
+  }
+};
 
 const updateProject = async (req: Request, res: Response) => {};
 
 const deleteProject = async (req: Request, res: Response) => {};
 
-module.exports = { createProject };
+module.exports = { createProject, getProjectbyId, getProjects };
