@@ -18,9 +18,9 @@ const createProject = async (req: Request, res: Response) => {
       members: Array.isArray(members) ? members : [],
     });
 
-    return res.status(201).json(newProject)
+    return res.status(201).json(newProject);
   } catch (error) {
-    return res.status(500).json({error: "Erro interno ao criar o projeto!"})
+    return res.status(500).json({ error: 'Erro interno ao criar o projeto!' });
   }
 };
 
@@ -29,3 +29,5 @@ const getProject = async (req: Request, res: Response) => {};
 const updateProject = async (req: Request, res: Response) => {};
 
 const deleteProject = async (req: Request, res: Response) => {};
+
+module.exports = { createProject };
