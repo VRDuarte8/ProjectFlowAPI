@@ -1,14 +1,23 @@
 const express = require('express');
 const router = express.Router();
 
-const { createProject, getProjectbyId, getProjects } = require('../controllers/ProjectController');
+const {
+  createProject,
+  getProjectbyId,
+  getProjects,
+  updateProject,
+} = require('../controllers/ProjectController');
 
 const validate = require('../middlewares/handleValidation');
 const authGuard = require('../middlewares/authGuard');
-const { createValidation } = require('../middlewares/projectValidations');
+const {
+  createValidation,
+  updateProjectValidation,
+} = require('../middlewares/projectValidations');
 
 router.post('/create', authGuard, createValidation(), validate, createProject);
-router.get('/', authGuard, getProjects)
-router.get('/:id', authGuard, getProjectbyId)
+router.get('/', authGuard, getProjects);
+router.get('/:id', authGuard, getProjectbyId);
+router.put('/:id', authGuard, updateProjectValidation(), validate, updateProject);
 
 module.exports = router;

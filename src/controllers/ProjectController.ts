@@ -43,20 +43,64 @@ const getProjectbyId = async (req: Request, res: Response) => {
 
 const getProjects = async (req: Request, res: Response) => {
   try {
-    const projects = await Project.find({ $or: [{owner: req.user._id}, {members: req.user._id}]})
+    const projects = await Project.find({
+      $or: [{ owner: req.user._id }, { members: req.user._id }],
+    });
 
-    if(!projects || projects.length === 0){
-      return res.status(200).json({ message: 'Você não está participando de nenhum projetos'})
+    if (!projects || projects.length === 0) {
+      return res
+        .status(200)
+        .json({ message: 'Você não está participando de nenhum projetos' });
     }
 
-    return res.status(200).json({projects})
+    return res.status(200).json({ projects });
   } catch (error) {
     return res.status(404).json({ errors: ['Projetos não encontrados!'] });
   }
 };
 
-const updateProject = async (req: Request, res: Response) => {};
+const updateProject = async (req: Request, res: Response) => {
+  try {
+    const { name, description, members } = req.body;
+
+    const { id } = req.params;
+
+    const reqUserId = req.user._id.toString();
+
+    const project = await Project.findById(id);
+
+    if (!project) {
+      return res.status(404).json({ error: 'Projeto não encontrado!' });
+    }
+
+    if (!project.owner.equals(reqUserId)) {
+      return res.status(403).json({
+        error: 'Você não possui autorização para realizar esta ação!',
+      });
+    }
+
+    if (name) {
+      project.name = name;
+    }
+
+    if (description) {
+      project.description = description;
+    }
+
+    if (members) {
+      project.members = members;
+    }
+
+    await project.save();
+
+    return res.status(201).json(project);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao atualizar o projeto!' });
+  }
+};
 
 const deleteProject = async (req: Request, res: Response) => {};
 
-module.exports = { createProject, getProjectbyId, getProjects };
+module.exports = { createProject, getProjectbyId, getProjects, updateProject };
