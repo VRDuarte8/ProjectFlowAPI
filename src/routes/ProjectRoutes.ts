@@ -6,6 +6,7 @@ const {
   getProjectbyId,
   getProjects,
   updateProject,
+  deleteProject
 } = require('../controllers/ProjectController');
 
 const validate = require('../middlewares/handleValidation');
@@ -19,5 +20,6 @@ router.post('/create', authGuard, createValidation(), validate, createProject);
 router.get('/', authGuard, getProjects);
 router.get('/:id', authGuard, getProjectbyId);
 router.put('/:id', authGuard, updateProjectValidation(), validate, updateProject);
+router.delete('/:id', authGuard, deleteProject)
 
 module.exports = router;

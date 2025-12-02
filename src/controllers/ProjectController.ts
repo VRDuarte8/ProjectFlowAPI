@@ -93,7 +93,7 @@ const updateProject = async (req: Request, res: Response) => {
 
     await project.save();
 
-    return res.status(201).json(project);
+    return res.status(200).json(project);
   } catch (error) {
     return res
       .status(500)
@@ -101,6 +101,32 @@ const updateProject = async (req: Request, res: Response) => {
   }
 };
 
-const deleteProject = async (req: Request, res: Response) => {};
+const deleteProject = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
 
-module.exports = { createProject, getProjectbyId, getProjects, updateProject };
+    const reqUserId = req.user._id.toString();
+
+    const project = await Project.findById(id);
+
+    if (!project) {
+      return res.status(404).json({ error: 'Projeto não encontrado!' });
+    }
+
+    if (!project.owner.equals(reqUserId)) {
+      return res.status(403).json({
+        error: 'Você não possui autorização para realizar esta ação!',
+      });
+    }
+
+    await project.deleteOne();
+
+    return res.status(200).json({ message: 'Projeto deletado com sucesso!' });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao deletar o projeto!' });
+  }
+};
+
+module.exports = { createProject, getProjectbyId, getProjects, updateProject, deleteProject };
