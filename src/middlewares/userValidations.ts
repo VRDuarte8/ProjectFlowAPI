@@ -3,17 +3,17 @@ const { body } = require('express-validator');
 const registerValidation = () => {
   return [
     body('name')
-      .isString()
+      .notEmpty()
       .withMessage('O nome é obrigatório!')
       .isLength({ min: 3 })
       .withMessage('O nome precisa ter no mínimo 3 caracteres!'),
     body('email')
-      .isString()
+      .notEmpty()
       .withMessage('o e-mail é obrigatório')
       .isEmail()
       .withMessage('insira um e-mail válido!'),
     body('password')
-      .isString()
+      .notEmpty()
       .withMessage('A senha é obrigatória')
       .isLength({ min: 5 })
       .withMessage('A senha precisa ter no mínimo 5 caracteres!'),
@@ -23,7 +23,7 @@ const registerValidation = () => {
 const loginValidation = () => {
   return [
     body('email')
-      .isString()
+      .notEmpty()
       .withMessage('o e-mail é obrigatório')
       .isEmail()
       .withMessage('insira um e-mail válido!'),

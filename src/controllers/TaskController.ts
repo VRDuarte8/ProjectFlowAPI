@@ -44,7 +44,7 @@ const createTask = async (req: Request, res: Response) => {
     const newTask = await Task.create({
       title,
       description,
-      status,
+      status: status.toUp,
       priority,
       dueDate: dueDate ? new Date(dueDate) : null,
       project,

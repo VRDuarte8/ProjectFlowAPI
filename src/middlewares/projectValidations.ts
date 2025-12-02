@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 const createValidation = () => {
   return [
-    body('name').isString().withMessage('O nome do projeto é obrigatório!'),
+    body('name').notEmpty().withMessage('O nome do projeto é obrigatório!'),
     body('members')
       .optional()
       .isArray()
