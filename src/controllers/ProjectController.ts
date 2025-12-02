@@ -24,6 +24,7 @@ const createProject = async (req: Request, res: Response) => {
   }
 };
 
+// Get unique Project
 const getProjectbyId = async (req: Request, res: Response) => {
   const { id } = req.params;
 
@@ -41,6 +42,7 @@ const getProjectbyId = async (req: Request, res: Response) => {
   }
 };
 
+// Get all Projects
 const getProjects = async (req: Request, res: Response) => {
   try {
     const projects = await Project.find({
@@ -59,6 +61,7 @@ const getProjects = async (req: Request, res: Response) => {
   }
 };
 
+// Update Project
 const updateProject = async (req: Request, res: Response) => {
   try {
     const { name, description, members } = req.body;
@@ -101,6 +104,7 @@ const updateProject = async (req: Request, res: Response) => {
   }
 };
 
+// Delete Project
 const deleteProject = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -129,4 +133,10 @@ const deleteProject = async (req: Request, res: Response) => {
   }
 };
 
-module.exports = { createProject, getProjectbyId, getProjects, updateProject, deleteProject };
+module.exports = {
+  createProject,
+  getProjectbyId,
+  getProjects,
+  updateProject,
+  deleteProject,
+};
