@@ -1,3 +1,6 @@
+import type { Request } from 'express';
+import type { Types } from 'mongoose';
+
 const { body } = require('express-validator');
 const User = require('../models/User');
 const Project = require('../models/Project');
@@ -29,12 +32,26 @@ const createValidation = () => {
     }),
     body('assignedTo')
       .optional()
-      .custom(async (userId: string) => {
+      .custom(async (userId: string, { req }: { req: Request }) => {
         if (!mongoose.Types.ObjectId.isValid(userId)) {
           throw new Error('O ID do usuário atribuído é inválido!');
         }
         const foundUser = await User.findById(userId);
         if (!foundUser) throw new Error('O usuário atribuído não existe!');
+
+        const projectId = req.body.project;
+        const foundProject = await Project.findById(projectId);
+
+        if (!foundProject) return true;
+
+        const isOwner = foundProject.owner.equals(userId);
+        const isMember = foundProject.members.some((m: Types.ObjectId) =>
+          m.equals(userId)
+        );
+
+        if (!isOwner && !isMember) {
+          throw new Error('O usuário atribuído não pertence ao projeto!');
+        }
 
         return true;
       }),
@@ -46,5 +63,5 @@ const createValidation = () => {
 };
 
 module.exports = {
-  createValidation
-}
+  createValidation,
+};

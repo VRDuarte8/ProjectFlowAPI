@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.use('/api/users', require('./UserRoutes'));
 router.use('/api/projects', require('./ProjectRoutes'));
+router.use('/api/tasks', require('./TaskRoutes'));
 
 //test
 router.get('/api', (req: Request, res: Response) => {

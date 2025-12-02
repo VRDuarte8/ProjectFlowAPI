@@ -13,9 +13,9 @@ const createTask = async (req: Request, res: Response) => {
       description,
       status,
       priority,
-      dueDate,
       project,
       assignedTo,
+      dueDate
     } = req.body;
 
     const reqUserId = req.user._id.toString();
@@ -28,7 +28,7 @@ const createTask = async (req: Request, res: Response) => {
 
     // Verify if user is owner or member
     const isOwner = projectData.owner.equals(reqUserId);
-    const isMember = projectData.member.some((m: Types.ObjectId) =>
+    const isMember = projectData.members.some((m: Types.ObjectId) =>
       m.equals(reqUserId)
     );
 
@@ -44,7 +44,7 @@ const createTask = async (req: Request, res: Response) => {
     const newTask = await Task.create({
       title,
       description,
-      status: status.toUp,
+      status,
       priority,
       dueDate: dueDate ? new Date(dueDate) : null,
       project,
