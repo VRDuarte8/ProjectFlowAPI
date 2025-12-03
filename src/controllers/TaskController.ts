@@ -107,12 +107,54 @@ const getTaskbyProject = async (req: Request, res: Response) => {
   }
 };
 
-const updateTask = async (req: Request, res: Response) => {};
+const updateTask = async (req: Request, res: Response) => {
+  try {
+    const { title, description, status, priority, assignedTo, dueDate } =
+      req.body;
+
+    const { id } = req.params;
+
+    const reqUserId = req.user._id.toString();
+
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ error: 'Tarefa não encontrada!' });
+    }
+
+    const project = await Project.findById(task.project);
+
+    if (
+      !project.owner.equals(reqUserId) &&
+      !task.assignedTo.equals(reqUserId)
+    ) {
+      return res.status(403).json({
+        error: 'Você não possui autorização para atualizar esta tarefa!',
+      });
+    }
+
+    if (title) task.title = title;
+    if (description) task.description = description;
+    if (status) task.status = status;
+    if (priority) task.priority = priority;
+    if (assignedTo) task.assignedTo = assignedTo;
+    if (dueDate) task.dueDate = dueDate;
+
+    await task.save();
+
+    return res.status(200).json(task);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao atualizar a tarefa!' });
+  }
+};
 
 const deleteTask = async (req: Request, res: Response) => {};
 
 module.exports = {
   createTask,
   getAllTasks,
-  getTaskbyProject
+  getTaskbyProject,
+  updateTask
 };
