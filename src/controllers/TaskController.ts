@@ -150,11 +150,38 @@ const updateTask = async (req: Request, res: Response) => {
   }
 };
 
-const deleteTask = async (req: Request, res: Response) => {};
+const deleteTask = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const reqUserId = req.user._id.toString();
+
+    const task = await Task.findById(id);
+
+    if (!task) {
+      return res.status(404).json({ error: 'Tarefa não encontrada!' });
+    }
+
+    const project = await Project.findById(task.project);
+
+    if (!project.owner.equals(reqUserId)) {
+      return res.status(403).json({
+        error: 'Você não possui autorização para deletar esta tarefa!',
+      });
+    }
+
+    await task.deleteOne();
+
+    return res.status(200).json({ message: 'Tarefa deletada com sucesso!' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Erro interno ao deletar a task!' });
+  }
+};
 
 module.exports = {
   createTask,
   getAllTasks,
   getTaskbyProject,
-  updateTask
+  updateTask,
+  deleteTask
 };
