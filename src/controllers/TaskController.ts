@@ -15,7 +15,7 @@ const createTask = async (req: Request, res: Response) => {
       priority,
       project,
       assignedTo,
-      dueDate
+      dueDate,
     } = req.body;
 
     const reqUserId = req.user._id.toString();
@@ -33,12 +33,10 @@ const createTask = async (req: Request, res: Response) => {
     );
 
     if (!isOwner && !isMember) {
-      return res
-        .status(203)
-        .json({
-          error:
-            'Você não possui autorização para criar tarefas para este projeto!',
-        });
+      return res.status(203).json({
+        error:
+          'Você não possui autorização para criar tarefas para este projeto!',
+      });
     }
 
     const newTask = await Task.create({
@@ -51,13 +49,63 @@ const createTask = async (req: Request, res: Response) => {
       assignedTo: assignedTo || null,
     });
 
-    return res.status(201).json(newTask)
+    return res.status(201).json(newTask);
   } catch (error) {
     return res.status(500).json({ error: 'Erro interno ao criar task!' });
   }
 };
 
-const getTask = async (req: Request, res: Response) => {};
+const getAllTasks = async (req: Request, res: Response) => {
+  try {
+    const reqUserId = req.user._id.toString();
+
+    const tasks = await Task.find({ assignedTo: reqUserId });
+    if (tasks.length === 0) {
+      return res.status(200).json({ message: 'Voce não possui tarefas!' });
+    }
+
+    return res.status(200).json(tasks);
+  } catch (error) {
+    return res.status(500).json({ error: 'Erro interno ao buscar tasks!' });
+  }
+};
+
+const getTaskbyProject = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const reqUserId = req.user._id.toString();
+    const project = await Project.findById(id);
+
+    if (!project) {
+      return res.status(404).json({ error: 'O projeto informado não existe!' });
+    }
+
+    const isOwner = project.owner.equals(reqUserId);
+    const isMember = project.members.some((m: Types.ObjectId) =>
+      m.equals(reqUserId)
+    );
+
+    if (!isOwner && !isMember) {
+      return res.status(403).json({
+        error:
+          'Você não possui autorização para visualizar as tarefas deste projeto!',
+      });
+    }
+
+    const tasks = await Task.find({ project: project._id });
+
+    if (tasks.length === 0)
+      return res
+        .status(200)
+        .json({ message: 'Este projeto não possui tarefas!' });
+
+    return res.status(200).json(tasks);
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao buscar tarefas do projeto informado!' });
+  }
+};
 
 const updateTask = async (req: Request, res: Response) => {};
 
@@ -65,4 +113,6 @@ const deleteTask = async (req: Request, res: Response) => {};
 
 module.exports = {
   createTask,
+  getAllTasks,
+  getTaskbyProject
 };
