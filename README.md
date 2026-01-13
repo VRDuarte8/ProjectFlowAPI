@@ -89,20 +89,25 @@ Response
 ```
 
 GET /users/profile
+
 Retorna usuário autenticado
 
 GET /users/:id
+
 Retorna um usuário pelo id
 
 DELETE /users/:id
+
 Deleta um usuário
 
 PUT /users/:id
+
 Atualiza um usuário
 
 
 ### 📁 Projects
 POST /projects/create
+
 Cria um projeto
 
 Body
@@ -120,18 +125,23 @@ Body
 ```
 
 GET /projects/:id 
+
 Retorna um projeto
 
 GET /projects/
+
 Retorna projetos do usuário autenticado
 
 DELETE /projects/:id 
+
 Deleta um projeto
 
 PUT /projects/:id 
+
 Atualiza um projeto
 
 GET /projects/report
+
 Retorna um relatório do projeto contendo total de tarefas, total por status, atrasadas e constribuidores
 
 
@@ -178,9 +188,11 @@ Atualiza uma task
 ## 📬 Postman Collection
 A collection do Postman está disponível na pasta:
 /docs/ProjectFlow API.postman_collection.json
+
 Importe o arquivo no Postman para testar todos os endpoints da API.
 
 
 ## 👨‍💻 Autor
 Vinicius Duarte
+
 Desenvolvedor Back-end Node.js
