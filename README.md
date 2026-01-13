@@ -70,6 +70,7 @@ Body
 }
 ```
 
+
 POST /users/login
 
 Autentica usuário
@@ -88,17 +89,21 @@ Response
 }
 ```
 
+
 GET /users/profile
 
 Retorna usuário autenticado
+
 
 GET /users/:id
 
 Retorna um usuário pelo id
 
+
 DELETE /users/:id
 
 Deleta um usuário
+
 
 PUT /users/:id
 
@@ -128,17 +133,21 @@ GET /projects/:id
 
 Retorna um projeto
 
+
 GET /projects/
 
 Retorna projetos do usuário autenticado
+
 
 DELETE /projects/:id 
 
 Deleta um projeto
 
+
 PUT /projects/:id 
 
 Atualiza um projeto
+
 
 GET /projects/report
 
@@ -173,15 +182,21 @@ Body
 - `ALTA`
 
 GET /tasks/
+
 Lista tarefas do usuário autenticado
 
+
 GET /tasks/project/:id 
+
 Lista tarefas de um projeto
+
 
 DELETE /tasks/:id 
 Deleta uma task
 
+
 PUT /tasks/:id 
+
 Atualiza uma task
 
 
