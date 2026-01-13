@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 
 const Project = require('../models/Project');
 const User = require('../models/User');
+const Task = require('../models/Task');
 const mongoose = require('mongoose');
 
 // Create Project
@@ -133,10 +134,54 @@ const deleteProject = async (req: Request, res: Response) => {
   }
 };
 
+// Report
+const getProjectReport = async (req: Request, res: Response) => {
+  const projectId = req.params.id;
+  const today = new Date();
+
+  if (!mongoose.Types.ObjectId.isValid(projectId)) {
+    return res.status(400).json({ error: 'ID do projeto inválido!' });
+  }
+
+  try {
+    const tasks = await Task.aggregate([
+      { $match: { project: new mongoose.Types.ObjectId(projectId) } },
+      {
+        $facet: {
+          total: [{ $count: 'value' }],
+          byStatus: [{ $group: { _id: '$status', count: { $sum: 1 } } }],
+          overdue: [
+            {
+              $match: { dueDate: { $lt: today }, status: { $ne: 'CONCLUIDA' } },
+            },
+            { $count: 'value' },
+          ],
+          contributors: [
+            { $match: { assignedTo: { $ne: null } } },
+            {
+              $group: {
+                _id: '$assignedTo',
+                count: { $sum: 1 },
+              },
+            },
+            { $sort: { count: -1 } },
+          ],
+        },
+      },
+    ]);
+
+    res.json({ report: tasks[0] });
+  } catch (error) {
+    res.status(404).json({ errors: ['Erro interno ao gerar relatório!'] });
+    return;
+  }
+};
+
 module.exports = {
   createProject,
   getProjectbyId,
   getProjects,
   updateProject,
   deleteProject,
+  getProjectReport,
 };

@@ -6,7 +6,8 @@ const {
   getProjectbyId,
   getProjects,
   updateProject,
-  deleteProject
+  deleteProject,
+  getProjectReport,
 } = require('../controllers/ProjectController');
 
 const validate = require('../middlewares/handleValidation');
@@ -18,8 +19,15 @@ const {
 
 router.post('/create', authGuard, createValidation(), validate, createProject);
 router.get('/', authGuard, getProjects);
+router.get('/report/:id', authGuard, getProjectReport);
 router.get('/:id', authGuard, getProjectbyId);
-router.put('/:id', authGuard, updateProjectValidation(), validate, updateProject);
-router.delete('/:id', authGuard, deleteProject)
+router.put(
+  '/:id',
+  authGuard,
+  updateProjectValidation(),
+  validate,
+  updateProject
+);
+router.delete('/:id', authGuard, deleteProject);
 
 module.exports = router;
