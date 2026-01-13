@@ -50,9 +50,7 @@ Authorization: Bearer <token>
 ## 📌 Endpoints
 
 ### 👤 Users
-POST /users/register
-
-Cria um novo usuário
+POST /users/register - Cria um novo usuário
 
 Body
 ```json
@@ -71,9 +69,7 @@ Body
 ```
 
 
-POST /users/login
-
-Autentica usuário
+POST /users/login - Autentica usuário
 Body
 ```json
 {
@@ -90,30 +86,20 @@ Response
 ```
 
 
-GET /users/profile
-
-Retorna usuário autenticado
+GET /users/profile - Retorna usuário autenticado
 
 
-GET /users/:id
-
-Retorna um usuário pelo id
+GET /users/:id - Retorna um usuário pelo id
 
 
-DELETE /users/:id
-
-Deleta um usuário
+DELETE /users/:id - Deleta um usuário
 
 
-PUT /users/:id
-
-Atualiza um usuário
+PUT /users/:id - Atualiza um usuário
 
 
 ### 📁 Projects
-POST /projects/create
-
-Cria um projeto
+POST /projects/create - Cria um projeto
 
 Body
 ```json
@@ -129,34 +115,23 @@ Body
 }
 ```
 
-GET /projects/:id 
-
-Retorna um projeto
+GET /projects/:id  - Retorna um projeto
 
 
-GET /projects/
-
-Retorna projetos do usuário autenticado
+GET /projects/ - Retorna projetos do usuário autenticado
 
 
-DELETE /projects/:id 
-
-Deleta um projeto
+DELETE /projects/:id - Deleta um projeto
 
 
-PUT /projects/:id 
-
-Atualiza um projeto
+PUT /projects/:id - Atualiza um projeto
 
 
-GET /projects/report
-
-Retorna um relatório do projeto contendo total de tarefas, total por status, atrasadas e constribuidores
+GET /projects/report - Retorna um relatório do projeto contendo total de tarefas, total por status, atrasadas e constribuidores
 
 
 ### ✅ Tasks
-POST /tasks/create
-Cria tarefa vinculada a um projeto
+POST /tasks/create - Cria tarefa vinculada a um projeto
 
 Body
 ```json
@@ -181,23 +156,13 @@ Body
 - `MEDIA`
 - `ALTA`
 
-GET /tasks/
+GET /tasks/ - Lista tarefas do usuário autenticado
 
-Lista tarefas do usuário autenticado
+GET /tasks/project/:id - Lista tarefas de um projeto
 
+DELETE /tasks/:id - Deleta uma task
 
-GET /tasks/project/:id 
-
-Lista tarefas de um projeto
-
-
-DELETE /tasks/:id 
-Deleta uma task
-
-
-PUT /tasks/:id 
-
-Atualiza uma task
+PUT /tasks/:id  - Atualiza uma task
 
 
 ## 📬 Postman Collection
