@@ -1,0 +1,498 @@
+{
+	"info": {
+		"_postman_id": "74612b00-3c46-45d5-972c-1d135e6891e5",
+		"name": "ProjectFlow API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29439966"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"tvgirl\",\r\n    \"email\": \"tv@teste.com\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/register",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"vini@teste.com\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/users/profile",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Vinicius\",\r\n    \"email\": \"vini@teste.com\",\r\n    \"password\": \"12345\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/users/6917688ea2fc55c5c71734bf",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"6917688ea2fc55c5c71734bf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dah@teste.com\",\r\n    \"password\": \"12345\"\r\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/users/6917688ea2fc55c5c71734bf",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								"6917688ea2fc55c5c71734bf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Vinicius\",\r\n    \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/users/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTE2MjRmNmE4YWE1NzE3MjYwZGU2NjUiLCJpYXQiOjE3NjQzNDcyMTUsImV4cCI6MTc2NDk1MjAxNX0.F9XAo7L6YfCKiip_ZXopH9dqi4VFca1roqeFiURYm50",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"teste4\",\r\n    \"members\": [\r\n        \"691624f6a8aa5717260de665\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/projects/692de5ed3e3d74b5f5891c40",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"692de5ed3e3d74b5f5891c40"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/projects/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"members\": [\r\n        \"692de4483e3d74b5f5891c31\",\r\n        \"692de4613e3d74b5f5891c34\"\r\n    ]\r\n}\r\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/projects/692df16c23d91992e06f5a53",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"692df16c23d91992e06f5a53"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/projects/692df16c23d91992e06f5a59",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"692df16c23d91992e06f5a59"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/projects/report/692de5ed3e3d74b5f5891c40",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"projects",
+								"report",
+								"692de5ed3e3d74b5f5891c40"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tasks",
+			"item": [
+				{
+					"name": "/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Task de teste 10\",\r\n    \"project\": \"692de5ed3e3d74b5f5891c40\",\r\n    \"status\": \"em_andamento\",\r\n    \"priority\": \"media\",\r\n    \"assignedTo\": \"692de4483e3d74b5f5891c31\",\r\n    \"dueDate\": \"2025-11-10\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/tasks/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tasks",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/tasks/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tasks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/project/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/tasks/project/692df16c23d91992e06f5a59",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tasks",
+								"project",
+								"692df16c23d91992e06f5a59"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"task\": \"Task de teste 3\",\r\n    \"description\": \"Descrição do teste 3\",\r\n    \"status\": \"em_andamento\",\r\n    \"priority\": \"baixa\",\r\n    \"assignedTo\": \"692de4483e3d74b5f5891c31\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/tasks/692f5c4b9689c847f91e40a6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tasks",
+								"692f5c4b9689c847f91e40a6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/tasks/693049cfb2b99c7918449bd4",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"tasks",
+								"693049cfb2b99c7918449bd4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTE2MjRmNmE4YWE1NzE3MjYwZGU2NjUiLCJpYXQiOjE3NjgzMTcwODIsImV4cCI6MTc2ODkyMTg4Mn0.niSl7i2fEjWeQ4xMrMce0SJz35107zcDbbPPmCMFip4",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": ""
+		}
+	]
+}
