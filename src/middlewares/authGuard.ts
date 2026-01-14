@@ -17,7 +17,7 @@ const authGuard = async (req: Request, res: Response, next: NextFunction) => {
 
     next();
   } catch (error) {
-    res.status(400).json({ errors: ['O Token é inválido!'] });
+    res.status(401).json({ errors: ['O Token é inválido!'] });
   }
 };
 

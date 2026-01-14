@@ -106,7 +106,6 @@ Body
 {
   "name": "Projeto API",
   "description": "Gerenciar tarefas",
-  "owner": "owner.id",
   "members": [
     "member.id1",
     "member,id2",

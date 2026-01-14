@@ -33,7 +33,7 @@ const createTask = async (req: Request, res: Response) => {
     );
 
     if (!isOwner && !isMember) {
-      return res.status(203).json({
+      return res.status(403).json({
         error:
           'Você não possui autorização para criar tarefas para este projeto!',
       });

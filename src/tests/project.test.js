@@ -1,20 +1,12 @@
-const { beforeAll, describe, it, request, expect } = require('supertest');
+const request = require('supertest');
 const app = require('../app');
-
-let token: string;
-
-beforeAll(async () => {
-  const res = await request(app).post('/users/login').send({
-    email: 'test@email.com',
-    password: '123456',
-  });
-  token = res.body.token;
-});
+const {getAuthToken} = require('./helpers/auth')
 
 describe('Projects', () => {
   it('should create a project with token', async () => {
+    const token = await getAuthToken();
     const res = await request(app)
-      .post('/projects/create')
+      .post('/api/projects/create')
       .set('Authorization', `Bearer ${token}`)
       .send({
         name: 'Projeto Teste',
