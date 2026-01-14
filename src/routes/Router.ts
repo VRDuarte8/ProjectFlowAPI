@@ -8,7 +8,7 @@ router.use('/api/projects', require('./ProjectRoutes'));
 router.use('/api/tasks', require('./TaskRoutes'));
 
 //test
-router.get('/api', (req: Request, res: Response) => {
+router.get('/', (req: Request, res: Response) => {
   res.send('API working');
 });
 
