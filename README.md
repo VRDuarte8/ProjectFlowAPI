@@ -47,21 +47,6 @@ Após o login, o token deve ser enviado no header:
 Authorization: Bearer <token>
 ```
 
-## 🧪 Testes
-Este projeto possui testes de integração utilizando **Jest** e **Supertest**,
-cobrindo os principais fluxos da aplicação.
-
-### Testes implementados:
-- Registro e login de usuários (JWT)
-- Criação de projetos com autenticação
-- Controle de acesso: usuário não membro não pode criar tarefas (403)
-
-### Rodando os testes localmente
-
-```bash
-npm test
-```
-
 ## 📌 Endpoints
 
 ### 👤 Users
@@ -185,6 +170,37 @@ A collection do Postman está disponível na pasta:
 
 Importe o arquivo no Postman para testar todos os endpoints da API.
 
+## 🧪 Testes
+Este projeto possui testes de integração utilizando **Jest** e **Supertest**,
+cobrindo os principais fluxos da aplicação.
+
+### Testes implementados:
+- Registro e login de usuários (JWT)
+- Criação de projetos com autenticação
+- Controle de acesso: usuário não membro não pode criar tarefas (403)
+
+### Rodando os testes localmente
+
+```bash
+npm test
+```
+
+## 🌐 Deploy
+
+A API está disponível em produção no seguinte endereço:
+
+**Base URL:**  
+https://SEU-PROJETO.up.railway.app/
+
+### 🔐 Variáveis de Ambiente (Produção)
+
+As seguintes variáveis de ambiente são obrigatórias para execução da API:
+
+```env
+PORT=3333
+MONGO_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/projectflow
+JWT_SECRET=sua_chave_secreta
+```
 
 ## 👨‍💻 Autor
 Vinicius Duarte
