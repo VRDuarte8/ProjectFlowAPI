@@ -51,6 +51,7 @@ const register = async (req: Request, res: Response) => {
       token: generateToken(newUser._id),
     });
   } catch (error) {
+    console.error('Erro de Registro: ', error);
     return res.status(500).json({ error: 'Erro interno ao criar usuário!' });
   }
 };
@@ -74,6 +75,7 @@ const login = async (req: Request, res: Response) => {
 
     res.status(200).json({ _id: user._id, token: generateToken(user._id) });
   } catch (error) {
+    console.error('Erro de Login: ', error);
     return res.status(500).json({ error: 'Erro interno ao realizar o login!' });
   }
 };
@@ -131,6 +133,7 @@ const update = async (req: Request, res: Response) => {
 
     res.status(200).json(user);
   } catch (error) {
+    console.error('Erro de Update: ', error);
     return res
       .status(500)
       .json({ error: 'Erro interno ao atualizar o usuário!' });
@@ -147,11 +150,9 @@ const deleteUser = async (req: Request, res: Response) => {
     const user = await User.findById(id);
 
     if (reqUserId !== user._id.toString()) {
-      res
-        .status(403)
-        .json({
-          error: 'Você não possui autorização para realizar esta ação!',
-        });
+      res.status(403).json({
+        error: 'Você não possui autorização para realizar esta ação!',
+      });
       return;
     }
 
@@ -159,6 +160,7 @@ const deleteUser = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: 'Usuário deletado com sucesso' });
   } catch (error) {
+    console.error('Erro de Delete: ', error);
     return res
       .status(500)
       .json({ error: 'Erro interno ao deletar o usuário!' });

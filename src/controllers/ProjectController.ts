@@ -21,6 +21,7 @@ const createProject = async (req: Request, res: Response) => {
 
     return res.status(201).json(newProject);
   } catch (error) {
+    console.error('Erro de Criação: ', error);
     return res.status(500).json({ error: 'Erro interno ao criar o projeto!' });
   }
 };
@@ -99,6 +100,7 @@ const updateProject = async (req: Request, res: Response) => {
 
     return res.status(200).json(project);
   } catch (error) {
+    console.error('Erro de Update: ', error);
     return res
       .status(500)
       .json({ error: 'Erro interno ao atualizar o projeto!' });
@@ -128,6 +130,7 @@ const deleteProject = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: 'Projeto deletado com sucesso!' });
   } catch (error) {
+    console.error('Erro de Delete: ', error);
     return res
       .status(500)
       .json({ error: 'Erro interno ao deletar o projeto!' });

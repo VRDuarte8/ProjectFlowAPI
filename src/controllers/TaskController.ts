@@ -51,6 +51,7 @@ const createTask = async (req: Request, res: Response) => {
 
     return res.status(201).json(newTask);
   } catch (error) {
+    console.error('Erro de Criação: ', error);
     return res.status(500).json({ error: 'Erro interno ao criar task!' });
   }
 };
@@ -144,6 +145,7 @@ const updateTask = async (req: Request, res: Response) => {
 
     return res.status(200).json(task);
   } catch (error) {
+    console.error('Erro de Update: ', error);
     return res
       .status(500)
       .json({ error: 'Erro interno ao atualizar a tarefa!' });
@@ -174,6 +176,7 @@ const deleteTask = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: 'Tarefa deletada com sucesso!' });
   } catch (error) {
+    console.error('Erro de Delete: ', error);
     return res.status(500).json({ error: 'Erro interno ao deletar a task!' });
   }
 };
