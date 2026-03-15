@@ -15,7 +15,7 @@ Permite criar projetos, associar tarefas e controlar status de execução.
 
 ### Clone o repositório
 ```bash
-git clone https://github.com/seu-user/projectflow-api
+git clone https://github.com/VRDuarte8/ProjectFlowAPI.git
 ```
 
 ### Instale as dependências
